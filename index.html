@@ -19,6 +19,12 @@
         <!-- Status messages will be displayed here -->
     </div>
     <div class="results-container" id="results-container">
+        <button id="copy-results-btn" class="copy-btn" title="Copy Results" style="float:right; margin-bottom:10px; background:none; border:none; cursor:pointer; padding:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="vertical-align:middle; color:#0969da;">
+            <rect x="9" y="9" width="13" height="13" rx="2" fill="#fff" stroke="#0969da" stroke-width="2"/>
+            <rect x="3" y="3" width="13" height="13" rx="2" fill="#eaeef2" stroke="#0969da" stroke-width="2"/>
+          </svg>
+        </button>
         <table class="results-table" id="results-table">
             <thead>
                 <tr>
@@ -61,6 +67,39 @@
         });
       };
 
+      const copyResultsToClipboard = () => {
+        const table = document.getElementById('results-table');
+        // Get headers
+        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText.trim());
+        // Get rows
+        const rows = Array.from(table.querySelectorAll('tbody tr')).map(row =>
+          Array.from(row.querySelectorAll('td')).map(td => td.innerText.trim())
+        );
+
+        // Calculate max width for each column
+        const colWidths = headers.map((header, i) => {
+          return Math.max(
+            header.length,
+            ...rows.map(row => (row[i] ? row[i].length : 0))
+          );
+        });
+
+        // Helper to pad each cell
+        const pad = (str, len) => str + ' '.repeat(len - str.length);
+
+        let text = '';
+        text += headers.map((h, i) => pad(h, colWidths[i])).join('  ') + '\n';
+        rows.forEach(row => {
+          text += row.map((cell, i) => pad(cell, colWidths[i])).join('  ') + '\n';
+        });
+
+        navigator.clipboard.writeText(text.trim()).then(() => {
+          $("#status-container").text('Results copied to clipboard!');
+        }, () => {
+          $("#status-container").text('Failed to copy results.');
+        });
+      };
+
       $(document).ready(() => {
         $('#search-input').on('keypress', (e) => {
           if (e.which === 13) {
@@ -68,7 +107,14 @@
           }
         });
         $('#search-button').on('click', getResults);
+        $('#copy-results-btn').on('click', copyResultsToClipboard);
       });
     </script>
+    <style>
+      .copy-btn svg:hover {
+        color: #035fc7;
+        filter: brightness(0.9);
+      }
+    </style>
   </body>
 </html>
