@@ -1,5 +1,3 @@
-let data;
-let githubNetworks = [];
 const url = 'https://api.github.com/meta';
 
 class IPSubnet {
@@ -19,7 +17,7 @@ class IPSubnet {
     parseIPv6(ip) {
         const parts = ip.split(':');
         const fullParts = [];
-        for (let part of parts) {
+        for (const part of parts) {
             if (part === '') {
                 fullParts.push(...Array(8 - parts.length + 1).fill('0000'));
             } else {
@@ -45,30 +43,27 @@ class IPSubnet {
     }
 }
 
-function searchIP(ip) {
-    const result = [];
-    for (const network of githubNetworks) {
-        if (network.isInSubnet(ip)) {
-            result.push(network);
-        }
-    }
-    return result;
-}
+const githubNetworks = [];
+let data;
 
-$(document).ready(function(){
+const searchIP = (ip) => {
+    return githubNetworks.filter(network => network.isInSubnet(ip));
+};
+
+$(document).ready(() => {
     $("#status-container").text("Fetching data from GitHub API...");
-    $.getJSON(url, function(json) {
+    $.getJSON(url, (json) => {
         data = json;
-        ignored_keys = ["verifiable_password_authentication", "ssh_key_fingerprints", "ssh_keys", "domains"];
-        for (const key in data){
-            if(!ignored_keys.includes(key)){
-                networks = data[key];
-                for(network in networks){
-                    networkObject = new IPSubnet(networks[network],key);
+        const ignoredKeys = ["verifiable_password_authentication", "ssh_key_fingerprints", "ssh_keys", "domains"];
+        Object.keys(data).forEach(key => {
+            if (!ignoredKeys.includes(key)) {
+                const networks = data[key];
+                networks.forEach(cidr => {
+                    const networkObject = new IPSubnet(cidr, key);
                     githubNetworks.push(networkObject);
-                }
+                });
             }
-        }
+        });
         $("#status-container").text(`Loaded ${githubNetworks.length} IP ranges`);
     });
- });
+});

@@ -37,16 +37,14 @@
     </div>
 
     <script>
-      function getResults() {
+      const getResults = () => {
         const searchTerm = document.getElementById('search-input').value;
-        const statusContainer = document.getElementById('status-container');
         const resultsTableBody = document.getElementById('results-table').getElementsByTagName('tbody')[0];
 
         resultsTableBody.innerHTML = '';
-
         $("#status-container").text('Searching...');
 
-        results = searchIP(searchTerm);
+        const results = searchIP(searchTerm);
 
         $("#status-container").text(`Found ${results.length} results`);
         results.forEach(result => {
@@ -60,17 +58,17 @@
             row.appendChild(cidrCell);
             row.appendChild(serviceCell);
             resultsTableBody.appendChild(row);
-        })
-    };
+        });
+      };
 
-    $("#search-input").keypress(function(e) {
-        if(e.which == 13) {
+      $(document).ready(() => {
+        $('#search-input').on('keypress', (e) => {
+          if (e.which === 13) {
             getResults();
-        }
-    });
-    $("#search-button").click(function(){
-      getResults();
-    });
+          }
+        });
+        $('#search-button').on('click', getResults);
+      });
     </script>
-</body>
+  </body>
 </html>
