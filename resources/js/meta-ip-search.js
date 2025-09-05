@@ -45,9 +45,30 @@ class IPSubnet {
 
 const githubNetworks = [];
 let data;
+let dataLoaded = false;
+let pendingSearch = null;
 
 const searchIP = (ip) => {
     return githubNetworks.filter(network => network.isInSubnet(ip));
+};
+
+// Function to check for and execute any pending search
+const checkPendingSearch = () => {
+    if (pendingSearch && dataLoaded) {
+        pendingSearch();
+        pendingSearch = null;
+    }
+};
+
+// Function to schedule a search after data is loaded
+const scheduleSearch = (searchFunction) => {
+    if (dataLoaded) {
+        // If data is already loaded, execute immediately
+        searchFunction();
+    } else {
+        // Otherwise, store as pending
+        pendingSearch = searchFunction;
+    }
 };
 
 $(document).ready(() => {
@@ -64,6 +85,9 @@ $(document).ready(() => {
                 });
             }
         });
+        dataLoaded = true;
         $("#status-container").text(`Loaded ${githubNetworks.length} IP ranges`);
+        // Check if there's a pending search
+        checkPendingSearch();
     });
 });

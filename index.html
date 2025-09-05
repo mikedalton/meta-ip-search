@@ -13,7 +13,7 @@
     <div class="search-container">
         <h1>GitHub Meta IP Search</h1>
         <input type="text" id="search-input" placeholder="Enter IP to search for">
-        <button id="search-button" onclick="getResults()">Search</button>
+        <button id="search-button">Search</button>
     </div>
     <div class="status-container" id="status-container">
         <!-- Status messages will be displayed here -->
@@ -46,6 +46,11 @@
       const getResults = () => {
         const searchTerm = document.getElementById('search-input').value;
         const resultsTableBody = document.getElementById('results-table').getElementsByTagName('tbody')[0];
+        
+        // Update the URL query parameter
+        const url = new URL(window.location);
+        url.searchParams.set('ip', searchTerm);
+        window.history.pushState({}, '', url);
 
         resultsTableBody.innerHTML = '';
         $("#status-container").text('Searching...');
@@ -101,12 +106,23 @@
       };
 
       $(document).ready(() => {
+        // Check URL parameters for an IP to search
+        const urlParams = new URLSearchParams(window.location.search);
+        const ipParam = urlParams.get('ip');
+        
+        if (ipParam) {
+          // Set the search input value from URL parameter
+          $('#search-input').val(ipParam);
+          // Schedule the search to run after data is loaded
+          scheduleSearch(getResults);
+        }
+        
         $('#search-input').on('keypress', (e) => {
           if (e.which === 13) {
-            getResults();
+            scheduleSearch(getResults);
           }
         });
-        $('#search-button').on('click', getResults);
+        $('#search-button').on('click', () => scheduleSearch(getResults));
         $('#copy-results-btn').on('click', copyResultsToClipboard);
       });
     </script>
