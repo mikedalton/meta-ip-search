@@ -1,113 +1,151 @@
-/* Modern, clean look for GitHub Meta IP Search */
+/* GitHub-style UI for GitHub Meta IP Search */
 body {
-  background: #f6f8fa;
-  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
   color: #24292f;
   margin: 0;
   padding: 0;
+  line-height: 1.5;
+  font-size: 14px;
 }
 
 .search-container {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(27,31,35,0.08);
-  max-width: 480px;
-  margin: 48px auto 24px auto;
-  padding: 32px 32px 24px 32px;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  max-width: 800px;
+  margin: 32px auto 24px auto;
+  padding: 24px 24px 20px 24px;
   text-align: center;
 }
 
 .search-container h1 {
-  margin-bottom: 18px;
-  font-size: 2rem;
+  margin-bottom: 16px;
+  font-size: 24px;
   font-weight: 600;
-  color: #0969da;
+  color: #24292f;
 }
 
 #search-input {
   width: 70%;
-  padding: 12px 14px;
+  padding: 5px 12px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 14px;
   margin-right: 8px;
-  transition: border 0.2s;
+  transition: border-color 0.15s ease-in-out;
+  background-color: #ffffff;
+  line-height: 20px;
 }
 #search-input:focus {
-  border: 1.5px solid #0969da;
+  border-color: #0969da;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
 }
 
 #search-button {
-  padding: 12px 22px;
-  background: #0969da;
-  color: #fff;
-  border: none;
+  padding: 5px 16px;
+  background-color: #2da44e;
+  color: #ffffff;
+  border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s;
+  line-height: 20px;
 }
 #search-button:hover {
-  background: #035fc7;
+  background-color: #2c974b;
 }
 
 .status-container {
-  max-width: 480px;
+  max-width: 800px;
   margin: 0 auto 16px auto;
   text-align: center;
   color: #57606a;
-  font-size: 1.05rem;
+  font-size: 14px;
   min-height: 24px;
 }
 
 .results-container {
-  max-width: 600px;
-  margin: 0 auto 32px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(27,31,35,0.08);
-  padding: 24px 24px 12px 24px;
+  max-width: 800px;
+  margin: 0 auto 24px auto;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
 }
 
 .results-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 8px;
+  font-size: 14px;
 }
 .results-table th, .results-table td {
-  padding: 12px 10px;
+  padding: 8px 16px;
   text-align: left;
+  border: 1px solid #d0d7de;
 }
 .results-table th {
-  background: #f0f6fc;
-  color: #0969da;
+  background: #f6f8fa;
+  color: #24292f;
   font-weight: 600;
-  border-bottom: 2px solid #d0d7de;
 }
 .results-table tr:nth-child(even) {
   background: #f6f8fa;
 }
 .results-table tr:hover {
-  background: #eaeef2;
+  background: #f1f6ff;
 }
 
 .about-container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto 32px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(27,31,35,0.08);
-  padding: 20px 28px 18px 28px;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
   color: #57606a;
-  font-size: 1.05rem;
+  font-size: 14px;
 }
 .about-container a {
   color: #0969da;
   text-decoration: none;
-  transition: text-decoration 0.2s;
 }
 .about-container a:hover {
   text-decoration: underline;
+}
+
+/* GitHub-style copy button */
+.copy-btn {
+  padding: 5px 16px;
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  color: #24292f;
+  cursor: pointer;
+  font-size: 14px;
+  float: right;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+}
+
+.copy-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #afb8c1;
+}
+
+/* GitHub-style flash message */
+.flash-message {
+  color: #0969da;
+  padding: 8px 16px;
+  background-color: #ddf4ff;
+  border-color: rgba(84,174,255,0.4);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  margin-top: 8px;
+  display: inline-block;
 }

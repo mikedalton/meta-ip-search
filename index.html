@@ -19,11 +19,8 @@
         <!-- Status messages will be displayed here -->
     </div>
     <div class="results-container" id="results-container">
-        <button id="copy-results-btn" class="copy-btn" title="Copy Results" style="float:right; margin-bottom:10px; background:none; border:none; cursor:pointer; padding:0;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="vertical-align:middle; color:#0969da;">
-            <rect x="9" y="9" width="13" height="13" rx="2" fill="#fff" stroke="#0969da" stroke-width="2"/>
-            <rect x="3" y="3" width="13" height="13" rx="2" fill="#eaeef2" stroke="#0969da" stroke-width="2"/>
-          </svg>
+        <button id="copy-results-btn" class="copy-btn" title="Copy Results">
+          Copy results
         </button>
         <table class="results-table" id="results-table">
             <thead>
@@ -53,7 +50,7 @@
         window.history.pushState({}, '', url);
 
         resultsTableBody.innerHTML = '';
-        $("#status-container").text('Searching...');
+        $("#status-container").html('<span>Searching...</span>');
 
         const results = searchIP(searchTerm);
 
@@ -99,7 +96,10 @@
         });
 
         navigator.clipboard.writeText(text.trim()).then(() => {
-          $("#status-container").text('Results copied to clipboard!');
+          $("#status-container").html('<span class="flash-message">Results copied to clipboard!</span>');
+          setTimeout(() => {
+            $("#status-container").text(`Found ${rows.length} results`);
+          }, 2000);
         }, () => {
           $("#status-container").text('Failed to copy results.');
         });
@@ -127,10 +127,7 @@
       });
     </script>
     <style>
-      .copy-btn svg:hover {
-        color: #035fc7;
-        filter: brightness(0.9);
-      }
+      /* Removing this style as it's now included in the CSS file */
     </style>
   </body>
 </html>
